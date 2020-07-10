@@ -1,5 +1,5 @@
-Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_exti.o: \
- ../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_exti.c \
+Core/Src/Driver/Encoder_Counting.o: ../Core/Src/Driver/Encoder_Counting.c \
+ ../Core/Src/Driver/Encoder_Counting.h ../Core/Inc/main.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h \
  ../Core/Inc/stm32l4xx_hal_conf.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h \
@@ -38,6 +38,10 @@ Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_exti.o: \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pcd.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_ll_usb.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pcd_ex.h
+
+../Core/Src/Driver/Encoder_Counting.h:
+
+../Core/Inc/main.h:
 
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h:
 

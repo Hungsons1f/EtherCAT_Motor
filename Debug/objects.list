@@ -6,6 +6,8 @@
 "Core/Src/App/esc_hw.o"
 "Core/Src/App/slave_objectlist.o"
 "Core/Src/App/spi.o"
+"Core/Src/Driver/Encoder_Counting.o"
+"Core/Src/Driver/PWM_Generating.o"
 "Core/Src/main.o"
 "Core/Src/stm32l4xx_hal_msp.o"
 "Core/Src/stm32l4xx_it.o"

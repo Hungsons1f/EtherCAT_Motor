@@ -36,7 +36,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define Postgain (45.0/150.0)
+#define Postgain (86.0/150.0)
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -97,8 +97,8 @@ void cb_get_inputs (void)					//just add
 	Motorstatus = Obj.MotorStatus;
 
 	Pwmduty = (int32_t)(Obj.pwm * Postgain);
-	if (Pwmduty < -45) Pwmduty = -45;
-	if (Pwmduty > 45) Pwmduty = 45;
+	if (Pwmduty < -90) Pwmduty = -90;
+	if (Pwmduty > 90) Pwmduty = 90;
 }
 
 void cb_set_outputs (void)
@@ -175,8 +175,10 @@ int main(void)
   ecat_slv_init (&config);
   DPRINT("Hello Main\n");
 
+  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_0, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_1, GPIO_PIN_SET);
   HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
-
+  int32_t pwmduty = 0;
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -184,14 +186,17 @@ int main(void)
   while (1)
   {
 	  ecat_slv();								//just add
+
 	  switch (Motorstatus)
 	  {
 	  case Running:
-		  PWMGen2(&Pwmduty, &htim3, TIM_CHANNEL_1, GPIOD, GPIO_PIN_0, GPIOD, GPIO_PIN_1);
+//		  PWMGen2(&Pwmduty, &htim3, TIM_CHANNEL_1, GPIOD, GPIO_PIN_0, GPIOD, GPIO_PIN_1);
+		  PWMGen3(&Pwmduty, &htim3, TIM_CHANNEL_1, GPIOE, GPIO_PIN_1);
 		  break;
 	  case Stopped:
-		  int32_t pwmduty = 0;
-		  PWMGen2(&pwmduty, &htim3, TIM_CHANNEL_1, GPIOD, GPIO_PIN_0, GPIOD, GPIO_PIN_1);
+
+//		  PWMGen2(&pwmduty, &htim3, TIM_CHANNEL_1, GPIOD, GPIO_PIN_0, GPIOD, GPIO_PIN_1);
+		  PWMGen3(&pwmduty, &htim3, TIM_CHANNEL_1, GPIOE, GPIO_PIN_1);
 		  break;
 	  default:
 		  break;
@@ -418,7 +423,7 @@ static void MX_TIM3_Init(void)
 
   /* USER CODE END TIM3_Init 1 */
   htim3.Instance = TIM3;
-  htim3.Init.Prescaler = 0;
+  htim3.Init.Prescaler = 19;
   htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim3.Init.Period = 99;
   htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
@@ -529,6 +534,9 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_0|GPIO_PIN_1, GPIO_PIN_RESET);
 
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOE, GPIO_PIN_1, GPIO_PIN_RESET);
+
   /*Configure GPIO pin : B1_Pin */
   GPIO_InitStruct.Pin = B1_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
@@ -582,6 +590,13 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
   HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : PE1 */
+  GPIO_InitStruct.Pin = GPIO_PIN_1;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+  HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
 
   /* EXTI interrupt init*/
   HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0, 0);

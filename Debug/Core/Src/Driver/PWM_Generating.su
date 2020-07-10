@@ -1,0 +1,3 @@
+PWM_Generating.c:15:6:PWMGen	32	static
+PWM_Generating.c:31:6:PWMGen2	32	static
+PWM_Generating.c:49:6:PWMGen3	32	static
